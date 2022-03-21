@@ -1,6 +1,6 @@
 {
   "name": "@architect/plugin-lambda-invoker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Interactively invoke Lambdas in Architect Sandbox with arbitrary events",
   "main": "src/index.js",
   "scripts": {
