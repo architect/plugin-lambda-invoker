@@ -39,7 +39,7 @@ invoker http scheduled # This would populate @http + @scheduled Lambdas, and ign
 
 ### Invocation mocks
 
-By default, Lambdas are invokved with an empty payload (`{}`); if you'd like to invoke your Lambdas with arbitrary payloads, create a file containing invocation mocks.
+By default, Lambdas are invoked with an empty payload (`{}`); if you'd like to invoke your Lambdas with arbitrary payloads, create a file containing invocation mocks.
 
 Invocation mock files live in your root with one of these filenames: `sandbox-invoke-mocks.json` or `sandbox-invoke-mocks.js`. These files should be structured like so:
 
