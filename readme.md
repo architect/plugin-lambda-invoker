@@ -1,10 +1,10 @@
-[<img src="https://assets.arc.codes/architect-logo-500b@2x.png" width=500>](https://www.npmjs.com/package/@architect/architect/plugin-lambda-invoker)
+[<img src="https://assets.arc.codes/architect-logo-500b@2x.png" width=500>](https://www.npmjs.com/package/@architect/plugin-lambda-invoker)
 
-## [`@architect/architect/plugin-lambda-invoker`](https://www.npmjs.com/package/@architect/architect/plugin-lambda-invoker)
+## [`@architect/plugin-lambda-invoker`](https://www.npmjs.com/package/@architect/plugin-lambda-invoker)
 
 > Interactively invoke Lambdas in Architect Sandbox with arbitrary events
 
-[![GitHub CI status](https://github.com/architect/architect/plugin-lambda-invoker/workflows/Node%20CI/badge.svg)](https://github.com/architect/architect/plugin-lambda-invoker/actions?query=workflow%3A%22Node+CI%22)
+[![GitHub CI status](https://github.com/architect/plugin-lambda-invoker/workflows/Node%20CI/badge.svg)](https://github.com/architect/plugin-lambda-invoker/actions?query=workflow%3A%22Node+CI%22)
 
 
 ## Install
@@ -12,14 +12,14 @@
 Into your existing Architect project:
 
 ```sh
-npm i @architect/architect/plugin-lambda-invoker --save-dev
+npm i @architect/plugin-lambda-invoker --save-dev
 ```
 
 Add the following to your Architect project manifest (usually `app.arc`):
 
 ```arc
 @plugins
-architect/architect/plugin-lambda-invoker
+architect/plugin-lambda-invoker
 ```
 
 
