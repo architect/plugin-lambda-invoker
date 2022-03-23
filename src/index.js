@@ -95,6 +95,7 @@ module.exports = {
           msg += ` with ${mockName === 'empty' ? 'empty' : `'${mockName}'`} payload`
           update.status(msg)
           await invoke({ pragma, name, payload })
+          start()
         }
       })
     },
