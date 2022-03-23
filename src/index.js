@@ -32,6 +32,7 @@ module.exports = {
       events.cancel = ''
 
       process.stdin.on('data', async function eventInvokeListener (input) {
+        start()
         input = String(input)
         // Reset Enquirer's styles
         let options = {
@@ -111,10 +112,15 @@ module.exports = {
 }
 
 // Necessary per Enquirer #326
-function end () {
+function start () {
   if (process.stdin.isTTY) {
     process.stdin.setRawMode(true)
     process.stdin.setEncoding('utf8')
     process.stdin.resume()
+  }
+}
+function end () {
+  if (process.stdin.isTTY) {
+    process.stdin.pause()
   }
 }
