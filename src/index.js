@@ -74,7 +74,7 @@ module.exports = {
             hint: '\nYou can use numbers to change your selection',
             choices: Object.keys(events),
           }, options)
-          if (lambda === 'cancel') return end()
+          if (lambda === 'cancel') return start()
           let { pragma, name } = events[lambda]
 
           // Present options for mocks (if any)
@@ -95,7 +95,6 @@ module.exports = {
           msg += ` with ${mockName === 'empty' ? 'empty' : `'${mockName}'`} payload`
           update.status(msg)
           await invoke({ pragma, name, payload })
-          end()
         }
       })
     },
