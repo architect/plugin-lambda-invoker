@@ -4,10 +4,12 @@ let { updater } = require('@architect/utils')
 let { prompt } = require('enquirer')
 let colors = require('ansi-colors')
 let update = updater('Invoker')
+let mock = require('./event-mocks')
 
 module.exports = {
   sandbox: {
     start: async ({ inventory: { inv }, invoke }) => {
+      start()
       update.status(`Event invoker started, select an event to invoke by pressing 'i'`)
       let { cwd, preferences } = inv._project
       let jsonMocks = join(cwd, 'sandbox-invoke-mocks.json')
@@ -51,7 +53,7 @@ module.exports = {
             return
           }
 
-          let payload = {}
+          let userPayload = {}
           let mocks
           let mockName = 'empty'
 
@@ -78,7 +80,8 @@ module.exports = {
           let { pragma, name } = events[lambda]
 
           // Present options for mocks (if any)
-          if (mocks?.[pragma]?.[name]) {
+          let mockable = ![ 'scheduled', 'tables-streams' ].includes(pragma)
+          if (mocks?.[pragma]?.[name] && mockable) {
             let selection = await prompt({
               type: 'select',
               name: 'mock',
@@ -87,7 +90,27 @@ module.exports = {
               choices: [ ...Object.keys(mocks[pragma][name]), 'empty' ],
             }, options)
             mockName = selection.mock
-            payload = mocks[pragma][name][mockName] || {}
+            userPayload = mocks[pragma][name][mockName] || {}
+          }
+
+          let payload
+          /**/ if (pragma === 'events') payload = mock.events(userPayload)
+          else if (pragma === 'queues') payload = mock.queues(userPayload)
+          else if (pragma === 'scheduled') payload = mock.scheduled()
+          else if (pragma === 'tables-streams') {
+            let { eventName } = await prompt({
+              type: 'select',
+              name: 'eventName',
+              message: 'Which kind of Dynamo Stream event do you want to invoke?',
+              choices: [ 'INSERT', 'MODIFY', 'REMOVE' ]
+            })
+            payload = mock.tablesStreams(eventName)
+          }
+          else {
+            if (!Object.keys(userPayload).length) {
+              update.warning('Warning: real AWS event sources generally do not emit empty payloads')
+            }
+            payload = userPayload
           }
 
           // Wrap it up and invoke!
@@ -119,6 +142,8 @@ function start () {
     process.stdin.resume()
   }
 }
+
+// Super important to pause stdin, or Sandbox will hang forever in tests
 function end () {
   if (process.stdin.isTTY) {
     process.stdin.pause()
