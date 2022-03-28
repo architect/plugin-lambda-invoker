@@ -8,11 +8,13 @@ module.exports = {
   tablesStreams,
 }
 
-function events (Message) {
+function events (payload) {
+  let Message = JSON.stringify(payload)
   return { Records: [ { Sns: { Message } } ] } // this is fine
 }
 
-function queues (body) {
+function queues (payload) {
+  let body = JSON.stringify(payload)
   return { Records: [ { body } ] } // also fine
 }
 
