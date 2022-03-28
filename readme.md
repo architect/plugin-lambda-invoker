@@ -64,6 +64,9 @@ module.exports = {
     'background-task': {
       'my-first-mock': { /* payload */ },
       'another-mock': { /* payload */ },
+      'function-mock': (id) => {
+        return { /* payload */ }
+      }
     }
   },
   queues: {
