@@ -14,6 +14,7 @@ module.exports = {
       let { cwd, preferences } = inv._project
       let jsonMocks = join(cwd, 'sandbox-invoke-mocks.json')
       let jsMocks = join(cwd, 'sandbox-invoke-mocks.js')
+      let inputPromptOpen = false
 
       let pragmas = [ 'events', 'queues', 'scheduled', 'tables-streams' ]
       let prefs = preferences?.sandbox?.invoker
@@ -45,7 +46,7 @@ module.exports = {
             strong: colors.white,
           }
         }
-        if (input === 'i') {
+        if (input === 'i' && !inputPromptOpen) {
           if (Object.keys(events).length === 1) {
             let none = 'No Lambdas found to invoke'
             if (pragmas.length) update.status(none, `Using the following pragmas: @${pragmas.join(', @')}`)
@@ -91,6 +92,21 @@ module.exports = {
             }, options)
             mockName = selection.mock
             userPayload = mocks[pragma][name][mockName] || {}
+
+            if (typeof userPayload === 'function') {
+              inputPromptOpen = true
+              let { mockinput } = await prompt(
+                {
+                  type: 'input',
+                  name: 'mockinput',
+                  message: 'What input to use for mock function?',
+                },
+                options
+              )
+              inputPromptOpen = false
+              let mockInputArgs = mockinput.split(',')
+              userPayload = userPayload(...mockInputArgs)
+            }
           }
 
           let payload
