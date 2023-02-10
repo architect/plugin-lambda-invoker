@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/architect/plugin-lambda-invoker#readme",
   "dependencies": {
-    "@architect/utils": "^3.0.4",
+    "@architect/utils": "^3.1.2",
     "enquirer": "^2.3.6"
   },
   "devDependencies": {
-    "@architect/eslint-config": "^2.0.1",
-    "eslint": "^8.11.0"
+    "@architect/eslint-config": "^2.1.1",
+    "eslint": "^8.33.0"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"

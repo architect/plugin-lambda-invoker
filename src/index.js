@@ -15,7 +15,7 @@ module.exports = {
       let jsonMocks = join(cwd, 'sandbox-invoke-mocks.json')
       let jsMocks = join(cwd, 'sandbox-invoke-mocks.js')
 
-      let pragmas = [ 'events', 'queues', 'scheduled', 'tables-streams' ]
+      let pragmas = [ 'customLambdas', 'events', 'queues', 'scheduled', 'tables-streams' ]
       let prefs = preferences?.sandbox?.invoker
       if (prefs) {
         if (Array.isArray(prefs)) pragmas = prefs
@@ -23,7 +23,7 @@ module.exports = {
         else throw Error('Invalid @architect/plugin-lambda-invoker plugin preferences')
       }
 
-      // Build out the availble event list
+      // Build out the available event list
       let events = {}
       pragmas.forEach(pragma => {
         if (inv[pragma]) inv[pragma].forEach(({ name }) => {
@@ -97,6 +97,7 @@ module.exports = {
           /**/ if (pragma === 'events') payload = mock.events(userPayload)
           else if (pragma === 'queues') payload = mock.queues(userPayload)
           else if (pragma === 'scheduled') payload = mock.scheduled()
+          else if (pragma === 'customLambdas') payload = mock.customLambdas(userPayload)
           else if (pragma === 'tables-streams') {
             let { eventName } = await prompt({
               type: 'select',
