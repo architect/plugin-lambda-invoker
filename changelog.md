@@ -13,6 +13,11 @@
 
 - Updated dependencies
 
+
+### Fixed
+
+- Gracefully cancel invocation if esc key is pressed
+
 ---
 
 ## [0.1.0 - 0.1.1] 2022-03-27

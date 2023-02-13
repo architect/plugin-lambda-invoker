@@ -68,16 +68,22 @@ module.exports = {
             mocks = require(jsMocks)
           }
 
-          let { lambda } = await prompt({
-            type: 'select',
-            name: 'lambda',
-            numbered: true,
-            message: 'Which event do you want to invoke?',
-            hint: '\nYou can use numbers to change your selection',
-            choices: Object.keys(events),
-          }, options)
-          if (lambda === 'cancel') return start()
-          let { pragma, name } = events[lambda]
+          try {
+            let { lambda } = await prompt({
+              type: 'select',
+              name: 'lambda',
+              numbered: true,
+              message: 'Which event do you want to invoke?',
+              hint: '\nYou can use numbers to change your selection',
+              choices: Object.keys(events),
+            }, options)
+            if (lambda === 'cancel') return start()
+            var { pragma, name } = events[lambda]
+          }
+          catch (err) {
+            update.status('Canceled invoke')
+            return start()
+          }
 
           // Present options for mocks (if any)
           let mockable = ![ 'scheduled', 'tables-streams' ].includes(pragma)
