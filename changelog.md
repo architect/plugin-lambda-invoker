@@ -6,6 +6,7 @@
 
 ### Added
 
+- Added option to repeat last invocation
 - Added support for `customLambdas` created by `set.customLambdas` Architect plugins
 
 

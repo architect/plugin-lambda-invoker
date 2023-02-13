@@ -5,6 +5,7 @@ let { prompt } = require('enquirer')
 let colors = require('ansi-colors')
 let update = updater('Invoker')
 let mock = require('./event-mocks')
+let lastInvoke
 
 module.exports = {
   sandbox: {
@@ -23,17 +24,23 @@ module.exports = {
         else throw Error('Invalid @architect/plugin-lambda-invoker plugin preferences')
       }
 
-      // Build out the available event list
-      let events = {}
-      pragmas.forEach(pragma => {
-        if (inv[pragma]) inv[pragma].forEach(({ name }) => {
-          events[`@${pragma} ${name}`] = { pragma, name }
-        })
-      })
-      // Add a cancel option should one desire
-      events.cancel = ''
-
       process.stdin.on('data', async function eventInvokeListener (input) {
+        // Build out the available event list each time to prevent caching
+        let events = {}
+        pragmas.forEach(pragma => {
+          if (inv[pragma]) inv[pragma].forEach(({ name }) => {
+            events[`@${pragma} ${name}`] = { pragma, name }
+          })
+        })
+        // Add a cancel option should one desire
+        events.cancel = ''
+
+        let lastEventName
+        if (lastInvoke) {
+          lastEventName = `Last invoke: @${lastInvoke.pragma} ${lastInvoke.name} (${lastInvoke.mockName})`
+          events[lastEventName] = lastInvoke
+        }
+
         start()
         input = String(input)
         // Reset Enquirer's styles
@@ -54,8 +61,8 @@ module.exports = {
           }
 
           let userPayload = {}
-          let mocks
           let mockName = 'empty'
+          let pragma, name, mocks, skipSelection
 
           // Load invocation mocks
           if (existsSync(jsonMocks)) {
@@ -78,7 +85,21 @@ module.exports = {
               choices: Object.keys(events),
             }, options)
             if (lambda === 'cancel') return start()
-            var { pragma, name } = events[lambda]
+            else if (lambda === lastEventName) {
+              skipSelection = true
+              var event = events[lastEventName]
+              mockName = event.mockName
+            }
+            else {
+              var event = events[lambda]
+            }
+            pragma = event.pragma
+            name = event.name
+
+            // Set up non-cached user payload from last event
+            if (lambda === lastEventName) {
+              userPayload = mocks[pragma][name][mockName] || {}
+            }
           }
           catch (err) {
             update.status('Canceled invoke')
@@ -87,7 +108,7 @@ module.exports = {
 
           // Present options for mocks (if any)
           let mockable = ![ 'scheduled', 'tables-streams' ].includes(pragma)
-          if (mocks?.[pragma]?.[name] && mockable) {
+          if (mocks?.[pragma]?.[name] && mockable && !skipSelection) {
             let selection = await prompt({
               type: 'select',
               name: 'mock',
@@ -98,6 +119,7 @@ module.exports = {
             mockName = selection.mock
             userPayload = mocks[pragma][name][mockName] || {}
           }
+          lastInvoke = { pragma, name, mockName, userPayload }
 
           let payload
           /**/ if (pragma === 'events') payload = mock.events(userPayload)
