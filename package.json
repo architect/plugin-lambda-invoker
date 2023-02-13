@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "npm run lint",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "rc": "npm version prerelease --preid RC"
   },
   "engines": {
     "node": ">=14.17.0"
