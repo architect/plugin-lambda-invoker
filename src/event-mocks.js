@@ -2,10 +2,15 @@ let { randomUUID } = require('crypto')
 
 // Sit back and enjoy AWS's hilarious mix of Pascal-case, camel-case, and lowcase, sometimes even within the same event sources
 module.exports = {
+  customLambdas,
   events,
   queues,
   scheduled,
   tablesStreams,
+}
+
+function customLambdas (payload) {
+  return JSON.stringify(payload) || {}
 }
 
 function events (payload) {
