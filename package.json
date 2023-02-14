@@ -1,11 +1,12 @@
 {
   "name": "@architect/plugin-lambda-invoker",
-  "version": "0.1.1",
+  "version": "1.0.0-RC.1",
   "description": "Interactively invoke Lambdas in Architect Sandbox with arbitrary events",
   "main": "src/index.js",
   "scripts": {
     "test": "npm run lint",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "rc": "npm version prerelease --preid RC"
   },
   "engines": {
     "node": ">=14.17.0"
@@ -23,12 +24,12 @@
   },
   "homepage": "https://github.com/architect/plugin-lambda-invoker#readme",
   "dependencies": {
-    "@architect/utils": "^3.0.4",
+    "@architect/utils": "^3.1.2",
     "enquirer": "^2.3.6"
   },
   "devDependencies": {
-    "@architect/eslint-config": "^2.0.1",
-    "eslint": "^8.11.0"
+    "@architect/eslint-config": "^2.1.1",
+    "eslint": "^8.33.0"
   },
   "eslintConfig": {
     "extends": "@architect/eslint-config"
