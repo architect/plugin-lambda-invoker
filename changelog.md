@@ -18,6 +18,7 @@
 ### Fixed
 
 - Gracefully cancel invocation if esc key is pressed
+- Fixes a TypeError issue where colors.symbols may be undefined; thanks @dakota002
 
 ---
 

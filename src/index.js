@@ -45,7 +45,7 @@ module.exports = {
         input = String(input)
         // Reset Enquirer's styles
         let options = {
-          prefix: colors.white(colors.symbols.question),
+          prefix: colors.white(colors.symbols?.question ?? '?'),
           styles: {
             em: colors.cyan, // Clear underlines
             danger: colors.red,
