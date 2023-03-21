@@ -39,7 +39,7 @@ function scheduled () {
   }
 }
 
-function tablesStreams (eventName) {
+function tablesStreams (eventName, dynamoData) {
   return {
     Records: [
       {
@@ -51,8 +51,8 @@ function tablesStreams (eventName) {
         dynamodb: {
           ApproximateCreationDateTime: new Date() / 1000,
           // Keys + NewImage are in DynamoDB JSON, perhaps we can mock transform that later
-          Keys: { NOT_MOCKED: true },
-          NewImage: { NOT_MOCKED: true },
+          Keys: dynamoData.Keys,
+          NewImage: dynamoData.NewImage,
           SequenceNumber: 0,
           SizeBytes: 0,
           StreamViewType: 'NEW_AND_OLD_IMAGES'

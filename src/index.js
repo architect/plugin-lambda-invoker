@@ -5,6 +5,8 @@ let { prompt } = require('enquirer')
 let colors = require('ansi-colors')
 let update = updater('Invoker')
 let mock = require('./event-mocks')
+const { marshall } = require('@aws-sdk/util-dynamodb')
+
 let lastInvoke
 
 module.exports = {
@@ -133,7 +135,7 @@ module.exports = {
               message: 'Which kind of Dynamo Stream event do you want to invoke?',
               choices: [ 'INSERT', 'MODIFY', 'REMOVE' ]
             })
-            payload = mock.tablesStreams(eventName)
+            payload = mock.tablesStreams(eventName, marshallJson(mocks[pragma][name][eventName]))
           }
           else {
             if (!Object.keys(userPayload).length) {
@@ -177,4 +179,14 @@ function end () {
   if (process.stdin.isTTY) {
     process.stdin.pause()
   }
+}
+
+// Marshalls Json from the mock into keys and newimage for tables-streams
+function marshallJson (json) {
+  const marshalled = marshall(json)
+  const Keys = Object.keys(marshalled).reduce((keys, key) => {
+    keys[key] = { [Object.keys( marshalled[key])[0]]: true }
+    return keys
+  }, {})
+  return { Keys, NewImage: marshalled }
 }
