@@ -1,6 +1,12 @@
 # Architect Lambda invoker plugin
 
 ---
+## [1.2.1] 2024-04-23
+
+### Added
+- Added functionality for passing unmarshalled json as the payload for tables-streams invocations
+
+---
 
 ## [1.2.0] 2023-08-30
 
@@ -26,6 +32,29 @@
 - Fixed missing `ansi-colors` dependency; thanks @lpsinger!
 
 ---
+
+## [1.1.0] 2023-08-07
+
+### Added
+
+- Added support from mocks in `sandbox-invoke-mocks.cjs`, `sandbox-invoke-mocks.mjs` filenames, and importing as ES modules from `sandbox-invoke-mocks.js` (and `.mjs`, of course); fixes #6, thanks @danactive!
+  - Note: per [Node.js #2806](https://github.com/nodejs/help/issues/2806), ES module data may be cached in Sandbox, which is intended to be a semi-long-lived process. If using ES modules, you may need to restart Sandbox when updating your mocks.
+
+---
+
+## [1.0.1] 2023-07-31
+
+### Fixed
+
+- Fixed missing `ansi-colors` dependency; thanks @lpsinger!
+
+---
+
+## [1.0.1] 2023-03-22
+
+### Added
+- Added functionality for passing unmarshalled json as the payload for tables-streams invocations
+
 
 ## [1.0.0] 2023-02-10
 
