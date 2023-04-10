@@ -50,9 +50,8 @@ function tablesStreams (eventName, dynamoData) {
         awsRegion: 'Sandbox',
         dynamodb: {
           ApproximateCreationDateTime: new Date() / 1000,
-          // Keys + NewImage are in DynamoDB JSON, perhaps we can mock transform that later
-          Keys: dynamoData.Keys,
-          NewImage: dynamoData.NewImage,
+          Keys: dynamoData?.Keys ?? { NOT_MOCKED: true },
+          NewImage: dynamoData?.NewImage ?? { NOT_MOCKED: true },
           SequenceNumber: 0,
           SizeBytes: 0,
           StreamViewType: 'NEW_AND_OLD_IMAGES'
