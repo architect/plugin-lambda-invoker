@@ -2,6 +2,12 @@
 
 ---
 
+## [1.0.1] 2023-03-22
+
+### Added
+- Added functionality for passing unmarshalled json as the payload for tables-streams invocations
+
+
 ## [1.0.0] 2023-02-10
 
 ### Added
