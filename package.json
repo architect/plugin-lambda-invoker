@@ -25,6 +25,7 @@
   "homepage": "https://github.com/architect/plugin-lambda-invoker#readme",
   "dependencies": {
     "@architect/utils": "^3.1.2",
+    "ansi-colors": "^4.1.1",
     "enquirer": "^2.3.6"
   },
   "devDependencies": {
