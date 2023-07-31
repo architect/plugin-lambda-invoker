@@ -2,6 +2,14 @@
 
 ---
 
+## [1.0.1] 2023-07-31
+
+### Fixed
+
+- Fixed missing `ansi-colors` dependency; thanks @lpsinger!
+
+---
+
 ## [1.0.0] 2023-02-10
 
 ### Added
