@@ -15,6 +15,8 @@ module.exports = {
       let { cwd, preferences } = inv._project
       let jsonMocks = join(cwd, 'sandbox-invoke-mocks.json')
       let jsMocks = join(cwd, 'sandbox-invoke-mocks.js')
+      let cjsMocks = join(cwd, 'sandbox-invoke-mocks.cjs')
+      let mjsMocks = join(cwd, 'sandbox-invoke-mocks.mjs')
 
       let pragmas = [ 'customLambdas', 'events', 'queues', 'scheduled', 'tables-streams' ]
       let prefs = preferences?.sandbox?.invoker
@@ -65,14 +67,18 @@ module.exports = {
           let pragma, name, mocks, skipSelection
 
           // Load invocation mocks
-          if (existsSync(jsonMocks)) {
+          /**/ if (existsSync(jsonMocks)) {
             mocks = JSON.parse(readFileSync(jsonMocks))
           }
           else if (existsSync(jsMocks)) {
-            // Make sure changes to mocks are always reflected
-            delete require.cache[require.resolve(jsMocks)]
+            mocks = await getMod(jsMocks)
+          }
+          else if (existsSync(cjsMocks)) {
             // eslint-disable-next-line
-            mocks = require(jsMocks)
+            mocks = require(cjsMocks)
+          }
+          else if (existsSync(mjsMocks)) {
+            mocks = await getMod(mjsMocks)
           }
 
           try {
@@ -177,4 +183,38 @@ function end () {
   if (process.stdin.isTTY) {
     process.stdin.pause()
   }
+}
+
+
+let esmErrors = [
+  'Cannot use import statement outside a module',
+  `Unexpected token 'export'`,
+  'require() of ES Module',
+  'Must use import to load ES Module',
+]
+let hasEsmError = err => esmErrors.some(msg => err.message.includes(msg))
+async function getMod (filepath) {
+  let mod
+
+  // Best effort to ensure changes to mocks are always reflected
+  delete require.cache[require.resolve(filepath)]
+
+  try {
+    // eslint-disable-next-line
+    mod = require(filepath)
+  }
+  catch (err) {
+    if (hasEsmError(err)) {
+      let path =  process.platform.startsWith('win')
+        ? 'file://' + filepath
+        : filepath
+      let imported = await import(path)
+      mod = imported.default ? imported.default : imported
+    }
+    else {
+      throw err
+    }
+  }
+
+  return mod
 }
