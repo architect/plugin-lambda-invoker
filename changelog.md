@@ -2,6 +2,15 @@
 
 ---
 
+## [1.1.0] 2023-08-07
+
+### Added
+
+- Added support from mocks in `sandbox-invoke-mocks.cjs`, `sandbox-invoke-mocks.mjs` filenames, and importing as ES modules from `sandbox-invoke-mocks.js` (and `.mjs`, of course); fixes #6, thanks @danactive!
+  - Note: per [Node.js #2806](https://github.com/nodejs/help/issues/2806), ES module data may be cached in Sandbox, which is intended to be a semi-long-lived process. If using ES modules, you may need to restart Sandbox when updating your mocks.
+
+---
+
 ## [1.0.1] 2023-07-31
 
 ### Fixed
