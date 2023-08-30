@@ -2,6 +2,14 @@
 
 ---
 
+## [1.2.0] 2023-08-30
+
+### Added
+
+- Added exportable `invoke` interface; fixes #1446
+
+---
+
 ## [1.1.0] 2023-08-07
 
 ### Added
