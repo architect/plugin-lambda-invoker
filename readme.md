@@ -25,6 +25,8 @@ architect/plugin-lambda-invoker
 
 ## Usage
 
+### CLI
+
 While Sandbox is running, type `i` in your terminal to bring up the Lambda invocation menu. Then select the Lambda you'd like to invoke.
 
 By default, this plugin will populate your menu with all `@events`, `@queues`, `@scheduled`, and `@tables-streams`; you can limit this menu (or expand it with additional pragmas) by adding the following setting to a `pref[erence]s.arc` file:
@@ -35,6 +37,24 @@ invoker http scheduled # This would populate @http + @scheduled Lambdas, and ign
 ```
 
 > Tip: you can navigate the invocation menu by typing numbers (zero-indexed)!
+
+
+### Programmatic
+
+The plugin also passes through the [Sandbox invoker](https://arc.codes/docs/en/guides/plugins/sandbox#invoke-function) for programmatic use (such as in a test environment). This method is only available after Sandbox has finished initializing.
+
+```js
+let sandbox = require('@architect/sandbox')
+let invokerPlugin = require('@architect/plugin-lambda-invoker')
+
+await sandbox.start()
+await invokerPlugin.invoke({
+  pragma: 'scheduled',
+  name: 'my-scheduled-event',
+  payload: { ok: true },
+})
+await sandbox.end()
+```
 
 
 ### Invocation mocks
