@@ -8,13 +8,6 @@ let mock = require('./event-mocks')
 let deactivatedInvoke = async () => console.log('Sandbox not yet started!')
 let lastInvoke
 
-module.exports = plugin
-
-let plugin = {
-  sandbox,
-  invoke: deactivatedInvoke,
-}
-
 let sandbox = {
   start: async ({ inventory: { inv }, invoke }) => {
     start()
@@ -176,6 +169,12 @@ let sandbox = {
     end()
   }
 }
+
+let plugin = {
+  sandbox,
+  invoke: deactivatedInvoke,
+}
+module.exports = plugin
 
 // Necessary per Enquirer #326
 function start () {
