@@ -74,6 +74,9 @@ analytics
 
 @scheduled
 backup-database
+
+@tables-streams
+tableName
 ```
 
 If you wanted to add one or more mocks to each of the three Lambdas above, create the following `sandbox-invoke-mocks.js` (or equivalent JSON) file with the format of `[pragmaName][lambdaName][mockName]`:
@@ -98,6 +101,13 @@ module.exports = {
       'the-last-mock': { /* payload */ },
     }
   },
+  'tables-streams':{
+    tableName:{
+      INSERT:{ /* payload */ },
+      MODIFY:{ /* payload */ },
+      REMOVE:{ /* payload */ },
+    }
+  }
 }
 ```
 

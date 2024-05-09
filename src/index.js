@@ -5,7 +5,9 @@ let { prompt } = require('enquirer')
 let colors = require('ansi-colors')
 let update = updater('Invoker')
 let mock = require('./event-mocks')
+let { marshall } = require('@aws-sdk/util-dynamodb')
 let deactivatedInvoke = async () => console.log('Sandbox not yet started!')
+
 let lastInvoke
 
 let sandbox = {
@@ -140,7 +142,7 @@ let sandbox = {
             message: 'Which kind of Dynamo Stream event do you want to invoke?',
             choices: [ 'INSERT', 'MODIFY', 'REMOVE' ]
           })
-          payload = mock.tablesStreams(eventName)
+          payload = mock.tablesStreams(eventName, marshallJson(mocks?.[pragma]?.[name]?.[eventName]))
         }
         else {
           if (!Object.keys(userPayload).length) {
@@ -212,7 +214,7 @@ async function getMod (filepath) {
   }
   catch (err) {
     if (hasEsmError(err)) {
-      let path =  process.platform.startsWith('win')
+      let path = process.platform.startsWith('win')
         ? 'file://' + filepath
         : filepath
       let imported = await import(path)
@@ -224,4 +226,13 @@ async function getMod (filepath) {
   }
 
   return mod
+}
+// Marshalls Json from the mock into keys and newimage for tables-streams
+function marshallJson (json) {
+  const marshalled = marshall(json)
+  const Keys = Object.keys(marshalled).reduce((keys, key) => {
+    keys[key] = { [Object.keys(marshalled[key])[0]]: true }
+    return keys
+  }, {})
+  return { Keys, NewImage: marshalled }
 }
