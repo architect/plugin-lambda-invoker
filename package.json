@@ -9,7 +9,7 @@
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=16"
   },
   "files": [
     "src/*"
