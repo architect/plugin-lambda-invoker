@@ -33,9 +33,9 @@ function scheduled () {
     time: new Date().toISOString(),
     region: 'Sandbox',
     resources: [
-      'arn:architect-sandbox'
+      'arn:architect-sandbox',
     ],
-    detail: {}
+    detail: {},
   }
 }
 
@@ -54,10 +54,10 @@ function tablesStreams (eventName, dynamoData) {
           NewImage: dynamoData?.NewImage ?? { NOT_MOCKED: true },
           SequenceNumber: 0,
           SizeBytes: 0,
-          StreamViewType: 'NEW_AND_OLD_IMAGES'
+          StreamViewType: 'NEW_AND_OLD_IMAGES',
         },
-        eventSourceARN: 'arn:architect-sandbox'
-      }
-    ]
+        eventSourceARN: 'arn:architect-sandbox',
+      },
+    ],
   }
 }

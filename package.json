@@ -9,7 +9,7 @@
     "rc": "npm version prerelease --preid RC"
   },
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=16"
   },
   "files": [
     "src/*"
@@ -24,17 +24,14 @@
   },
   "homepage": "https://github.com/architect/plugin-lambda-invoker#readme",
   "dependencies": {
-    "@architect/utils": "^3.1.2",
-    "@aws-sdk/util-dynamodb": "^3.296.0",
-    "ansi-colors": "^4.1.1",
-    "enquirer": "^2.3.6"
+    "@architect/utils": "^4.0.6",
+    "@aws-sdk/util-dynamodb": "^3.572.0",
+    "ansi-colors": "^4.1.3",
+    "enquirer": "^2.4.1"
   },
   "devDependencies": {
-    "@architect/eslint-config": "^2.1.1",
-    "eslint": "^8.33.0"
-  },
-  "eslintConfig": {
-    "extends": "@architect/eslint-config"
+    "@architect/eslint-config": "^3.0.0",
+    "eslint": "^9.2.0"
   },
   "keywords": [
     "arc",

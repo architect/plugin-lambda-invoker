@@ -1,10 +1,17 @@
 # Architect Lambda invoker plugin
 
 ---
-## [1.2.1] 2024-04-23
+
+## [2.0.1] 2024-04-23
 
 ### Added
-- Added functionality for passing unmarshalled json as the payload for tables-streams invocations
+
+- Added functionality for passing unmarshalled JSON as the payload for `@tables-streams` invocations
+
+
+### Changed
+
+- Breaking change: removed support for Node.js 14.x (now EOL, and no longer available to created in AWS Lambda)
 
 ---
 

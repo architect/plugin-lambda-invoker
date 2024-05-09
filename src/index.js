@@ -55,7 +55,7 @@ let sandbox = {
           em: colors.cyan, // Clear underlines
           danger: colors.red,
           strong: colors.white,
-        }
+        },
       }
       if (input === 'i') {
         if (Object.keys(events).length === 1) {
@@ -110,7 +110,7 @@ let sandbox = {
             userPayload = mocks[pragma][name][mockName] || {}
           }
         }
-        catch (err) {
+        catch {
           update.status('Canceled invoke')
           return start()
         }
@@ -140,7 +140,7 @@ let sandbox = {
             type: 'select',
             name: 'eventName',
             message: 'Which kind of Dynamo Stream event do you want to invoke?',
-            choices: [ 'INSERT', 'MODIFY', 'REMOVE' ]
+            choices: [ 'INSERT', 'MODIFY', 'REMOVE' ],
           })
           payload = mock.tablesStreams(eventName, marshallJson(mocks?.[pragma]?.[name]?.[eventName]))
         }
@@ -169,7 +169,7 @@ let sandbox = {
     })
     plugin.invoke = deactivatedInvoke
     end()
-  }
+  },
 }
 
 let plugin = {
@@ -209,7 +209,6 @@ async function getMod (filepath) {
   delete require.cache[require.resolve(filepath)]
 
   try {
-    // eslint-disable-next-line
     mod = require(filepath)
   }
   catch (err) {
