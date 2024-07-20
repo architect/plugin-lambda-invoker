@@ -10,7 +10,7 @@ module.exports = {
 }
 
 function customLambdas (payload) {
-  return JSON.stringify(payload) || {}
+  return payload || {}
 }
 
 function events (payload) {
