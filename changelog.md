@@ -2,6 +2,14 @@
 
 ---
 
+## [2.0.1] 2024-07-20
+
+### Fixed
+
+- Fixed event encoding for custom Lambdas; thanks @andybee!
+
+---
+
 ## [2.0.0] 2024-04-23
 
 ### Added
