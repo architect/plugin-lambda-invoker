@@ -2,6 +2,14 @@
 
 ---
 
+## [2.0.2] 2025-03-30
+
+### Fixed
+
+- Catch lambda invocation exceptions and warn about them. Fixes [#12](https://github.com/architect/plugin-lambda-invoker/issues/12); thanks @filmaj via [#14](https://github.com/architect/plugin-lambda-invoker/pull/14)!
+
+---
+
 ## [2.0.1] 2024-07-20
 
 ### Fixed
