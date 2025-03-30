@@ -4,7 +4,9 @@
   "description": "Interactively invoke Lambdas in Architect Sandbox with arbitrary events",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm run lint",
+    "coverage": "nyc --reporter=lcov --reporter=text npm run test:unit",
+    "test": "npm run lint && npm run coverage",
+    "test:unit": "cross-env tape 'test/unit/**/*-test.js' | tap-arc",
     "lint": "eslint . --fix",
     "rc": "npm version prerelease --preid RC"
   },
@@ -31,7 +33,12 @@
   },
   "devDependencies": {
     "@architect/eslint-config": "^3.0.0",
-    "eslint": "^9.2.0"
+    "cross-env": "^7.0.3",
+    "eslint": "^9.2.0",
+    "nyc": "^17.1.0",
+    "proxyquire": "^2.1.3",
+    "tap-arc": "^1.3.2",
+    "tape": "^5.9.0"
   },
   "keywords": [
     "arc",
