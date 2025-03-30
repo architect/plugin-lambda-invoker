@@ -14,7 +14,7 @@ function createInvMock () {
   return { inv: { _project: { cwd: process.cwd(), preferences: {} } } }
 }
 function createLogMock () {
-  return { status: () => ({}) }
+  return { status: () => ({}), warn: () => ({}) }
 }
 function createEnquirerMock () {
   return { prompt: async () => ({}) }
@@ -80,4 +80,18 @@ test('Should prompt for lambda selection and invoke matching lambda', async t =>
   await handler('i')
   const invoked = intercept()
   t.equal(invoked.length, 1, 'lambda invoke called')
+  t.equal(invoked[0].args[0].pragma, 'events', 'correct pragma invoked')
+  t.equal(invoked[0].args[0].name, 'test-event', 'correct lambda name invoked')
+})
+
+test('Should be able to recover from exception being raised by invoked lambda', async t => {
+  let mocks = createMocks()
+  t.capture(mocks.enquirer, 'prompt', async () => ({ lambda: '@events test-event' }))
+  t.capture(mocks, 'invoke', async () => { throw new Error('boom') })
+  let logcept = t.capture(mocks.logger, 'warn')
+  mocks.invMock.inv['events'] = [ { name: 'test-event' } ]
+  let handler = mockHandlerFactory(mocks)(mocks.logger, pragmas, mocks.invMock.inv, mocks.invoke)
+  await handler('i')
+  let logged = logcept()
+  t.match(logged[0].args[0].message, /boom/, 'lambda exception gets logged as warning')
 })

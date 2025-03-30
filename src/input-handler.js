@@ -139,7 +139,12 @@ module.exports = function bindInputHandler (update, pragmas, inv, invoke) {
       let msg = `Invoking @${pragma} ${name}`
       msg += ` with ${mockName === 'empty' ? 'empty' : `'${mockName}'`} payload`
       update.status(msg)
-      await invoke({ pragma, name, payload })
+      try {
+        await invoke({ pragma, name, payload })
+      }
+      catch (e) {
+        update.warn(e)
+      }
       start()
     }
   }
