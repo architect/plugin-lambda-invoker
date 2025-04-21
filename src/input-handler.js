@@ -158,6 +158,9 @@ async function getMod (filepath) {
 
   try {
     mod = require(filepath)
+    if (process?.features?.require_module === true && mod.default) {
+      mod = mod.default
+    }
   }
   catch (err) {
     if (hasEsmError(err)) {
