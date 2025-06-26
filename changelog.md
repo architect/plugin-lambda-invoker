@@ -2,6 +2,12 @@
 
 ---
 
+## [2.0.3] 2025-06-28
+
+### Fixed
+
+- Support importing mock MJS files in node v20.19+. Thanks @andybee via [#15](https://github.com/architect/plugin-lambda-invoker/pull/15)!
+
 ## [2.0.2] 2025-03-30
 
 ### Fixed
